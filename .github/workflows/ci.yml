@@ -20,6 +20,8 @@ jobs:
             otp: "24.3"
           - elixir: "1.14"
             otp: "25.3"
+          - elixir: "1.14.5"
+            otp: "26.0"
     steps:
       - uses: actions/checkout@v2
       - uses: erlef/setup-beam@v1
