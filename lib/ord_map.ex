@@ -1,5 +1,5 @@
 defmodule Aja.OrdMap do
-  base_doc = ~S"""
+  @moduledoc ~S"""
   A map preserving key insertion order, with efficient lookups, updates and enumeration.
 
   It works like regular maps, except that the insertion order is preserved:
@@ -181,24 +181,16 @@ defmodule Aja.OrdMap do
 
   `Aja.OrdMap` takes roughly 2~3x more memory than a regular map depending on the type of data:
 
+      map_size = Map.new(1..100, fn i -> {i, i} end) |> :erts_debug.size()
+      366
+
+      ord_map_size = Aja.OrdMap.new(1..100, fn i -> {i, i} end) |> :erts_debug.size()
+      1019
+
+      Float.round(ord_map_size / map_size, 2)
+      2.78
+
   """
-
-  module_doc =
-    if(System.otp_release() |> String.to_integer() >= 24) do
-      base_doc <>
-        ~S"""
-            iex> map_size = Map.new(1..100, fn i -> {i, i} end) |> :erts_debug.size()
-            366
-            iex> ord_map_size = Aja.OrdMap.new(1..100, fn i -> {i, i} end) |> :erts_debug.size()
-            1019
-            iex> Float.round(ord_map_size / map_size, 2)
-            2.78
-        """
-    else
-      base_doc
-    end
-
-  @moduledoc module_doc
 
   require Aja.Vector.Raw, as: RawVector
 
